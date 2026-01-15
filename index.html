@@ -1,0 +1,43 @@
+<script>
+let stations = [];
+let index = 0;
+
+const player = document.getElementById("player");
+const viz = document.getElementById("viz");
+
+fetch("stations.json")
+  .then(res => res.json())
+  .then(data => {
+    stations = data;
+    loadStation();
+  });
+
+function loadStation() {
+  document.getElementById("stationName").innerText = stations[index].name;
+  document.getElementById("stationAm").innerText = stations[index].am;
+  document.getElementById("logo").src = stations[index].logo;
+  player.src = stations[index].url;
+}
+
+function playRadio() {
+  player.play();
+  viz.style.display = "block";
+}
+
+function stopRadio() {
+  player.pause();
+  viz.style.display = "none";
+}
+
+function nextStation() {
+  index = (index + 1) % stations.length;
+  loadStation();
+  playRadio();
+}
+
+function prevStation() {
+  index = (index - 1 + stations.length) % stations.length;
+  loadStation();
+  playRadio();
+}
+</script>
